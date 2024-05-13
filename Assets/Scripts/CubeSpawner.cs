@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class CubeSpawner : MonoBehaviour
+public class CubeSpawner :  ElementsCounter
 {
     [SerializeField] private CubePool _pool;
     [SerializeField] private float _timeout;
@@ -10,6 +12,8 @@ public class CubeSpawner : MonoBehaviour
     
     private bool _isActive;
     private WaitForSeconds _spawnTimeout;
+
+    public event Action<Vector3> CubeDestroyed;
     
     private void Awake()
     {
@@ -24,9 +28,12 @@ public class CubeSpawner : MonoBehaviour
         while (_isActive)
         {
 
-            Cube cube = _pool.GetCube();
+            Cube cube = _pool.Get();
             cube.Destroyed += PutCubeIntoPool;
 
+            IncrementAllElementsCount();
+            IncrementActiveElementsCount();
+            
             Vector3 position = new (Random.Range(_positionMin.x, _positionMax.x), transform.position.y, Random.Range(_positionMin.y, _positionMax.y));
             
             cube.Init(position);
@@ -38,6 +45,8 @@ public class CubeSpawner : MonoBehaviour
     private void PutCubeIntoPool(Cube cube)
     {
         cube.Destroyed -= PutCubeIntoPool;
-        _pool.PutCube(cube);
+        _pool.Put(cube);
+        CubeDestroyed?.Invoke(cube.transform.position);
+        DecrementActiveElementsCount();
     }
 }
