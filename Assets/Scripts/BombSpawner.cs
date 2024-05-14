@@ -7,15 +7,15 @@ public class BombSpawner : ElementsCounter
 
     private void OnEnable()
     {
-        _cubeSpawner.CubeDestroyed += SpawnBomb;
+        _cubeSpawner.CubeDestroyed += Spawn;
     }
 
     private void OnDisable()
     {
-        _cubeSpawner.CubeDestroyed -= SpawnBomb;
+        _cubeSpawner.CubeDestroyed -= Spawn;
     }
 
-    private void SpawnBomb(Vector3 position)
+    private void Spawn(Vector3 position)
     {
         Bomb bomb = _bombPool.Get();
         bomb.Exploded += PutIntoPool;

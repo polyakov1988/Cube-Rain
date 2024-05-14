@@ -11,11 +11,9 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float _radius;
     [SerializeField] private float _force;
 
-    public event Action<Bomb> Exploded; 
-    
     private const float DefaultAlpha = 1;
-    
     private float _timer;
+    public event Action<Bomb> Exploded; 
     
     public void Init(Vector3 position)
     {
