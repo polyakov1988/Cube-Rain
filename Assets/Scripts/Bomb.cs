@@ -5,14 +5,16 @@ using DG.Tweening;
 
 public class Bomb : MonoBehaviour
 {
+    private const float DefaultAlpha = 1;
+    
     [SerializeField] private int _lifeTimeMin;
     [SerializeField] private int _lifeTimeMax;
     [SerializeField] private Renderer _renderer;
     [SerializeField] private float _radius;
     [SerializeField] private float _force;
-
-    private const float DefaultAlpha = 1;
+    
     private float _timer;
+    
     public event Action<Bomb> Exploded; 
     
     public void Init(Vector3 position)
@@ -37,10 +39,10 @@ public class Bomb : MonoBehaviour
         
         foreach (Collider hit in colliders)
         {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
 
-            if (rb != null)
-                rb.AddExplosionForce(_force, transform.position, _radius);
+            if (rigidbody != null)
+                rigidbody.AddExplosionForce(_force, transform.position, _radius);
         }
         
         Exploded?.Invoke(this);
