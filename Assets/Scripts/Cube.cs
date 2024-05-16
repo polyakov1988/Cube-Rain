@@ -8,6 +8,7 @@ public class Cube : MonoBehaviour
     [SerializeField] private CubeCollisionHandler _collisionHandler;
     [SerializeField] private int _lifeTimeMin;
     [SerializeField] private int _lifeTimeMax;
+    [SerializeField] private ColorChanger _colorChanger;
     
     private WaitForSeconds _lifeTime;
     
@@ -25,6 +26,7 @@ public class Cube : MonoBehaviour
 
     public void Init(Vector3 position)
     {
+        _colorChanger.Init();
         transform.position = position;
         _lifeTime = new (Random.Range(_lifeTimeMin, _lifeTimeMax));
     }
