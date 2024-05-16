@@ -19,11 +19,6 @@ public class Cube : MonoBehaviour
         _collisionHandler.Fallen += OnFallen;
     }
 
-    private void OnDisable()
-    {
-        _collisionHandler.Fallen -= OnFallen;
-    }
-
     public void Init(Vector3 position)
     {
         _colorChanger.Init();
@@ -33,11 +28,11 @@ public class Cube : MonoBehaviour
 
     private void OnFallen()
     {
-        StartCoroutine(StartTimer());
-        
+        _collisionHandler.Fallen -= OnFallen;
+        StartCoroutine(DestroyAfterLifeTime());
     }
     
-    private IEnumerator StartTimer()
+    private IEnumerator DestroyAfterLifeTime()
     {
         yield return _lifeTime;
         
